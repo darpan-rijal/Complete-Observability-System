@@ -1,0 +1,7 @@
+NAME                                IMAGE                         COMMAND                  SERVICE      CREATED       STATUS       PORTS
+observability-system-app-1          observability-system-app      "docker-entrypoint.s…"   app          2 hours ago   Up 2 hours   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+observability-system-grafana-1      grafana/grafana               "/run.sh"                grafana      4 hours ago   Up 4 hours   0.0.0.0:3001->3000/tcp, [::]:3001->3000/tcp
+observability-system-jaeger-1       jaegertracing/jaeger:latest   "/cmd/jaeger/jaeger-…"   jaeger       4 hours ago   Up 4 hours   5778-5779/tcp, 9411/tcp, 13132-13133/tcp, 14250/tcp, 0.0.0.0:4317-4318->4317-4318/tcp, [::]:4317-4318->4317-4318/tcp, 0.0.0.0:16686->16686/tcp, [::]:16686->16686/tcp, 14268/tcp
+observability-system-loki-1         grafana/loki:3.5.0            "/usr/bin/loki -conf…"   loki         4 hours ago   Up 4 hours   0.0.0.0:3100->3100/tcp, [::]:3100->3100/tcp
+observability-system-prometheus-1   prom/prometheus               "/bin/prometheus --c…"   prometheus   4 hours ago   Up 4 hours   0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp
+observability-system-promtail-1     grafana/promtail:3.5.0        "/usr/bin/promtail -…"   promtail     2 hours ago   Up 2 hours   

@@ -1,0 +1,19 @@
+{
+  "name": "observability-demo",
+  "version": "1.0.0",
+  "description": "Sample application for the Elevate Labs observability project",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.58.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.57.2",
+    "@opentelemetry/sdk-node": "^0.57.2",
+    "express": "^4.21.2",
+    "pino": "^9.6.0",
+    "pino-http": "^10.4.0",
+    "prom-client": "^15.1.3"
+  }
+}

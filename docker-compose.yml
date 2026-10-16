@@ -1,0 +1,58 @@
+services:
+  app:
+    build: ./app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      OTEL_SERVICE_NAME: observability-demo
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      NODE_OPTIONS: --require @opentelemetry/auto-instrumentations-node/register
+    depends_on:
+      - jaeger
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - app
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+    depends_on:
+      - prometheus
+      - loki
+
+  loki:
+    image: grafana/loki:3.5.0
+    command: -config.file=/etc/loki/config.yml
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki/loki-config.yml:/etc/loki/config.yml:ro
+
+  promtail:
+    image: grafana/promtail:3.5.0
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - ./loki/promtail-config.yml:/etc/promtail/config.yml:ro
+      - ./logs:/var/log/app:ro
+    depends_on:
+      - loki
+
+  jaeger:
+    image: jaegertracing/jaeger:latest
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
